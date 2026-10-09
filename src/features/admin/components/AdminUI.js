@@ -1,0 +1,10 @@
+import styled from 'styled-components';
+export const PageHeader = styled.div`display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px;h1{font-size:24px;margin:0;font-weight:800;}p{margin:6px 0 0;color:#777;font-size:13px;}`;
+export const Panel = styled.section`background:#fff;border:1px solid #eae8e1;border-radius:14px;padding:20px;box-shadow:0 3px 14px rgba(0,0,0,.025);`;
+export const Grid = styled.div`display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px;`;
+export const Stat = styled(Panel)`strong{display:block;font-size:24px;margin-top:10px;}span{font-size:12px;color:#777;} .symbol{color:#b08d20;font-size:20px;}`;
+export const TableWrap = styled.div`overflow-x:auto;background:#fff;border:1px solid #eae8e1;border-radius:14px;table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px;}th,td{text-align:left;padding:13px 15px;border-bottom:1px solid #f0eee8;}th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#777;background:#faf9f6;}tr:last-child td{border-bottom:0;}`;
+export const SearchInput = styled.input`padding:10px 12px;border:1px solid #dedbd2;border-radius:8px;background:#fff;min-width:220px;font:inherit;font-size:13px;`;
+export const PrimaryButton = styled.button`border:0;border-radius:8px;background:#d4af37;color:#17140a;font-weight:700;padding:10px 14px;cursor:pointer;font-size:13px;`;
+export const Muted = styled.span`color:#777;font-size:13px;`;
+export const EmptyState = styled.div`padding:36px 16px;text-align:center;color:#777;font-size:14px;`;
