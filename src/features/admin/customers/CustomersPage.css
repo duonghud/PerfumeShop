@@ -1,0 +1,227 @@
+/* CustomersPage.css */
+
+/* --- Toolbar (Thanh tìm kiếm & Nút thêm) --- */
+.customer-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.customer-toolbar input[type="search"] {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.customer-toolbar input[type="search"]:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.customer-toolbar button {
+    padding: 10px 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.customer-toolbar button:hover {
+    background-color: #1d4ed8;
+}
+
+/* --- Thông báo lỗi --- */
+.customer-error {
+    color: #dc2626;
+    background-color: #fee2e2;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* --- Bảng dữ liệu (Table) --- */
+.customer-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.customer-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.customer-table th,
+.customer-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.customer-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+}
+
+.customer-table tbody tr:hover {
+    background-color: #f3f4f6;
+}
+
+/* --- Các nút thao tác trong bảng --- */
+.customer-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.customer-actions button {
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.customer-actions button:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+/* Nút Xóa có màu đỏ nổi bật */
+.customer-actions button:last-child {
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+.customer-actions button:last-child:hover {
+    background-color: #fee2e2;
+}
+
+/* --- Modal (Khung nổi Thêm/Sửa/Chi tiết) --- */
+.customer-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.customer-modal {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    animation: fadeInModal 0.2s ease-out;
+}
+
+.customer-modal h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: #111827;
+}
+
+.customer-modal label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    color: #374151;
+}
+
+.customer-modal input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.customer-modal input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.customer-modal p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #374151;
+}
+
+/* --- Nút bấm trong Modal --- */
+.customer-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.customer-modal-actions button,
+.customer-modal button {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.customer-modal-actions button[type="submit"],
+.customer-modal > button {
+    background-color: #2563eb;
+    color: white;
+}
+
+.customer-modal-actions button[type="submit"]:hover,
+.customer-modal > button:hover {
+    background-color: #1d4ed8;
+}
+
+.customer-modal-actions button[type="button"] {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.customer-modal-actions button[type="button"]:hover {
+    background-color: #d1d5db;
+}
+
+/* Hiệu ứng xuất hiện modal */
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

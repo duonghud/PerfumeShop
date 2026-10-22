@@ -41,7 +41,7 @@ const Header = () => {
         <Link to="/shop" onClick={() => setMenuOpen(false)}>Sản phẩm</Link>
         <Link to="/about" onClick={() => setMenuOpen(false)}>Giới thiệu</Link>
         <Link to="/contact" onClick={() => setMenuOpen(false)}>Liên hệ</Link>
-        <Link to="/admin" onClick={() => setMenuOpen(false)} style={{color:'#D4AF37'}}>Admin</Link>
+        {/* <Link to="/admin" onClick={() => setMenuOpen(false)} style={{color:'#D4AF37'}}>Admin</Link> */}
       </nav>
 
       <div className="right">

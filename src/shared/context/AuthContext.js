@@ -7,28 +7,47 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authModal, setAuthModal] = useState({ open: false, mode: 'login' });
 
+  // Khôi phục user từ localStorage khi tải lại trang
   useEffect(() => {
     const saved = localStorage.getItem('synpe_user');
-    if (saved) { try { setUser(JSON.parse(saved)); } catch {} }
+    if (saved) { 
+      try { 
+        setUser(JSON.parse(saved)); 
+      } catch (e) {
+        console.error("Lỗi parse user từ localStorage", e);
+      } 
+    }
   }, []);
 
   const login = async (email, password) => {
     try {
+      // Gọi api chuẩn /auth/login
       const result = await loginApi(email, password);
-      const rawUser = result.user || {};
-      const safe = {
-        ...rawUser,
-        id: rawUser.id ?? rawUser.customerId ?? rawUser.customerID,
-        name: rawUser.name || rawUser.fullName || rawUser.fullname || email,
-        email: rawUser.email || email,
-        avatar: (rawUser.name || rawUser.fullName || email).charAt(0).toUpperCase(),
+      
+      const token = result.token;
+      if (!token) {
+        return { ok: false, error: 'Không nhận được mã token từ hệ thống!' };
+      }
+
+      // Tạo object user lưu trữ phiên đăng nhập
+      const safeUser = {
+        email: email,
+        name: email.split('@')[0],
+        avatar: email.charAt(0).toUpperCase(),
       };
-      setUser(safe);
-      localStorage.setItem('synpe_user', JSON.stringify(safe));
+
+      setUser(safeUser);
+      
+      // Lưu vào localStorage
+      localStorage.setItem('synpe_user', JSON.stringify(safeUser));
+      localStorage.setItem('token', token);
+      localStorage.setItem('synpe_token', token);
+
       setAuthModal({ open: false, mode: 'login' });
       return { ok: true };
     } catch (error) {
-      return { ok: false, error: error.message || 'Đăng nhập thất bại' };
+      const errorMsg = error.response?.data || error.message || 'Đăng nhập thất bại';
+      return { ok: { false: true }, error: typeof errorMsg === 'string' ? errorMsg : 'Tài khoản hoặc mật khẩu không chính xác' };
     }
   };
 
@@ -37,11 +56,18 @@ export const AuthProvider = ({ children }) => {
       await registerApi(name, email, password);
       return await login(email, password);
     } catch (error) {
-      return { ok: false, error: error.message || 'Đăng ký thất bại' };
+      const errorMsg = error.response?.data || error.message || 'Đăng ký thất bại';
+      return { ok: false, error: typeof errorMsg === 'string' ? errorMsg : 'Đăng ký thất bại' };
     }
   };
 
-  const logout = () => { setUser(null); localStorage.removeItem('synpe_user'); localStorage.removeItem('synpe_token'); };
+  const logout = () => { 
+    setUser(null); 
+    localStorage.removeItem('synpe_user'); 
+    localStorage.removeItem('synpe_token'); 
+    localStorage.removeItem('token'); 
+  };
+
   const openLogin = () => setAuthModal({ open: true, mode: 'login' });
   const openRegister = () => setAuthModal({ open: true, mode: 'register' });
   const closeAuth = () => setAuthModal(v => ({ ...v, open: false }));

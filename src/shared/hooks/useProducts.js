@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import mockProducts from '../data/products';
-import { getProducts, normalizeProduct } from '../api/api';
+import { getProducts } from '../api/products/getProducts';
 
-// Ưu tiên dữ liệu backend; nếu backend chưa chạy, vẫn hiển thị dữ liệu mẫu để phát triển giao diện.
 export default function useProducts() {
-  const [products, setProducts] = useState(mockProducts.map(normalizeProduct));
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState('');
 
@@ -19,7 +17,6 @@ export default function useProducts() {
       .catch((error) => {
         if (!active) return;
         setApiError(error.message);
-        // Fallback chỉ để xem giao diện; dữ liệu mẫu không được gửi lên backend.
       })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };

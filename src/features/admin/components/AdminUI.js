@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 export const PageHeader = styled.div`display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px;h1{font-size:24px;margin:0;font-weight:800;}p{margin:6px 0 0;color:#777;font-size:13px;}`;
 export const Panel = styled.section`background:#fff;border:1px solid #eae8e1;border-radius:14px;padding:20px;box-shadow:0 3px 14px rgba(0,0,0,.025);`;
@@ -8,3 +9,62 @@ export const SearchInput = styled.input`padding:10px 12px;border:1px solid #dedb
 export const PrimaryButton = styled.button`border:0;border-radius:8px;background:#d4af37;color:#17140a;font-weight:700;padding:10px 14px;cursor:pointer;font-size:13px;`;
 export const Muted = styled.span`color:#777;font-size:13px;`;
 export const EmptyState = styled.div`padding:36px 16px;text-align:center;color:#777;font-size:14px;`;
+
+const PaginationBar = styled.nav`
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:16px;
+  color:#666;
+  font-size:13px;
+`;
+const PaginationButton = styled.button`
+  padding:7px 12px;
+  border:1px solid #dedbd2;
+  border-radius:7px;
+  background:#fff;
+  color:#333;
+  cursor:pointer;
+  &:disabled { color:#aaa; cursor:not-allowed; }
+  &:not(:disabled):hover { border-color:#d4af37; color:#8a6c0a; }
+`;
+
+export function PaginatedList({ items, children, pageSize = 10 }) {
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(items.length / pageSize);
+  const currentPage = Math.min(page, Math.max(totalPages, 1));
+  const startIndex = (currentPage - 1) * pageSize;
+
+  useEffect(() => {
+    setPage(1);
+  }, [items]);
+
+  return (
+    <>
+      {children(items.slice(startIndex, startIndex + pageSize))}
+      {totalPages > 1 && (
+        <PaginationBar aria-label="Phân trang">
+          <span>
+            Hiển thị {startIndex + 1}–{Math.min(startIndex + pageSize, items.length)} / {items.length}
+          </span>
+          <PaginationButton
+            type="button"
+            onClick={() => setPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Trước
+          </PaginationButton>
+          <span aria-current="page">Trang {currentPage} / {totalPages}</span>
+          <PaginationButton
+            type="button"
+            onClick={() => setPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Tiếp
+          </PaginationButton>
+        </PaginationBar>
+      )}
+    </>
+  );
+}
